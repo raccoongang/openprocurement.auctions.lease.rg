@@ -34,7 +34,7 @@ def includeme_lease(config, plugin_config=None):
         config.add_auction_procurementMethodType(propertyLease,
                                                  procurementMethodType)
 
-    config.scan("openprocurement.auctions.lease.views.other")
+    config.scan("openprocurement.auctions.lease.views.property")
 
     # Register adapters
     config.registry.registerAdapter(
@@ -48,6 +48,6 @@ def includeme_lease(config, plugin_config=None):
         IAwardingNextCheck
     )
 
-    LOGGER.info("Included openprocurement.auctions.lease.other plugin",
+    LOGGER.info("Included openprocurement.auctions.lease.property plugin",
                 extra={'MESSAGE_ID': 'included_plugin'})
 
