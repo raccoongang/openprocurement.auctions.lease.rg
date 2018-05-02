@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 import unittest
 # from calendar import monthrange
 # from copy import deepcopy
@@ -9,7 +8,10 @@ import unittest
 # import pytz
 
 from openprocurement.auctions.lease.models import propertyLease
-from openprocurement.auctions.lease.tests.base import test_auction_maximum_data, test_auction_data, test_financial_auction_data, test_organization, test_financial_organization, BaseWebTest, BaseAuctionWebTest, DEFAULT_ACCELERATION, test_bids, test_financial_bids
+from openprocurement.auctions.lease.tests.base import (
+    test_auction_maximum_data, test_auction_data, test_organization,
+    BaseWebTest, BaseAuctionWebTest, test_bids,
+)
 
 from openprocurement.auctions.core.tests.base import snitch
 from openprocurement.auctions.core.tests.blanks.tender_blanks import (

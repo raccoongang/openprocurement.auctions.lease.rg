@@ -18,7 +18,9 @@ from openprocurement.auctions.core.tests.blanks.lot_blanks import (
 )
 from openprocurement.auctions.core.tests.base import snitch
 
-from openprocurement.auctions.lease.tests.base import BaseWebTest, BaseAuctionWebTest, test_auction_data, test_lots, test_financial_auction_data, test_financial_bids, test_financial_organization
+from openprocurement.auctions.lease.tests.base import (
+    BaseWebTest, BaseAuctionWebTest, test_auction_data, test_lots
+)
 from openprocurement.auctions.lease.tests.blanks.lot_blanks import (
     patch_auction_currency
 )
@@ -127,47 +129,12 @@ class AuctionLotProcessTest(BaseAuctionWebTest, AuctionLotProcessTestMixin):
     test_lots = test_lots
 
 
-@unittest.skip("option not available")
-class FinancialAuctionLotResourceTest(AuctionLotResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotFeatureResourceTest(AuctionLotFeatureResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotBidderResourceTest(AuctionLotBidderResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotFeatureBidderResourceTest(AuctionLotFeatureBidderResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotProcessTest(AuctionLotProcessTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionLotResourceTest))
     suite.addTest(unittest.makeSuite(AuctionLotBidderResourceTest))
     suite.addTest(unittest.makeSuite(AuctionLotFeatureBidderResourceTest))
     suite.addTest(unittest.makeSuite(AuctionLotProcessTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotFeatureBidderResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotProcessTest))
     return suite
 
 

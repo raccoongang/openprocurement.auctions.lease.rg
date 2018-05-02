@@ -502,9 +502,3 @@ class BaseAuctionWebTest(CoreBaseAuctionWebTest):
         self.assertEqual(response.status, '403 Forbidden')
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.json['errors'][0]["description"], "Can't switch award ({}) status to ({}) status".format(before_status, status))
-
-
-class BaseFinancialAuctionWebTest(BaseAuctionWebTest):
-    relative_to = os.path.dirname(__file__)
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization

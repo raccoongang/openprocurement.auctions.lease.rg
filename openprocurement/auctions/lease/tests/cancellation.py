@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.auctions.lease.tests.base import BaseAuctionWebTest, test_lots, test_bids, test_financial_auction_data, test_financial_bids
+from openprocurement.auctions.lease.tests.base import BaseAuctionWebTest, test_lots, test_bids
 from openprocurement.auctions.core.tests.cancellation import (
     AuctionCancellationResourceTestMixin,
     AuctionLotCancellationResourceTestMixin,
@@ -40,28 +40,11 @@ class AuctionCancellationDocumentResourceTest(BaseAuctionWebTest, AuctionCancell
         self.cancellation_id = cancellation['id']
 
 
-class FinancialAuctionCancellationResourceTest(AuctionCancellationResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotsCancellationResourceTest(AuctionLotsCancellationResourceTest):
-    initial_data = test_financial_auction_data
-
-
-class FinancialAuctionCancellationDocumentResourceTest(AuctionCancellationDocumentResourceTest):
-    initial_data = test_financial_auction_data
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionCancellationDocumentResourceTest))
     suite.addTest(unittest.makeSuite(AuctionLotsCancellationResourceTest))
     suite.addTest(unittest.makeSuite(AuctionCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionCancellationResourceTest))
     return suite
 
 

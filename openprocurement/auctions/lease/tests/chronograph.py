@@ -15,8 +15,7 @@ from openprocurement.auctions.core.tests.blanks.chronograph_blanks import (
     switch_to_complaint_award,
 )
 from openprocurement.auctions.lease.tests.base import (
-    BaseAuctionWebTest, test_lots, test_bids, test_financial_auction_data,
-    test_financial_organization, test_financial_bids,
+    BaseAuctionWebTest, test_lots, test_bids,
 )
 from openprocurement.auctions.lease.tests.blanks.chronograph_blanks import (
     # AuctionSwitchQualificationResourceTest
@@ -112,71 +111,6 @@ class AuctionLotAwardComplaintSwitchResourceTest(AuctionAwardComplaintSwitchReso
         self.award_id = award['id']
 
 
-class FinancialAuctionSwitchQualificationResourceTest(AuctionSwitchQualificationResourceTest):
-    initial_bids = test_financial_bids[:1]
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionSwitchAuctionResourceTest(AuctionSwitchAuctionResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionSwitchUnsuccessfulResourceTest(AuctionSwitchUnsuccessfulResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotSwitchQualificationResourceTest(AuctionLotSwitchQualificationResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotSwitchAuctionResourceTest(AuctionLotSwitchAuctionResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotSwitchUnsuccessfulResourceTest(AuctionLotSwitchUnsuccessfulResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionAuctionPeriodResourceTest(AuctionAuctionPeriodResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionComplaintSwitchResourceTest(AuctionComplaintSwitchResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotComplaintSwitchResourceTest(AuctionLotComplaintSwitchResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionAwardComplaintSwitchResourceTest(AuctionAwardComplaintSwitchResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotAwardComplaintSwitchResourceTest(AuctionLotAwardComplaintSwitchResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionAwardComplaintSwitchResourceTest))
@@ -189,16 +123,6 @@ def suite():
     suite.addTest(unittest.makeSuite(AuctionSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(AuctionSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(AuctionSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionSwitchUnsuccessfulResourceTest))
     return suite
 
 

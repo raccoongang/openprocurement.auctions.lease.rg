@@ -7,7 +7,7 @@ from datetime import timedelta, datetime
 from openprocurement.auctions.core.utils import get_now
 from openprocurement.auctions.core.tests.base import PrefixedRequestClass
 import openprocurement.auctions.lease.tests.base as base_test
-from openprocurement.auctions.lease.constants import DEFAULT_PROCUREMENT_METHOD_TYPE_FINANCIAL
+from openprocurement.auctions.lease.constants import DEFAULT_PROCUREMENT_METHOD_TYPE_LEASE
 from openprocurement.auctions.lease.tests.base import test_auction_data as base_test_auction_data, test_bids, test_financial_bids
 from openprocurement.auctions.lease.tests.base import test_auction_maximum_data
 from openprocurement.auctions.lease.tests.tender import BaseAuctionWebTest
@@ -17,7 +17,7 @@ now = datetime.now()
 
 test_auction_data = base_test_auction_data.copy()
 test_financial_auction_data = test_auction_data.copy()
-test_financial_auction_data["procurementMethodType"] = DEFAULT_PROCUREMENT_METHOD_TYPE_FINANCIAL
+test_financial_auction_data["procurementMethodType"] = DEFAULT_PROCUREMENT_METHOD_TYPE_LEASE
 
 bid = {
     "data": {

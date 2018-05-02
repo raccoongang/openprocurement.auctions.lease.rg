@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
 
 from openprocurement.auctions.lease.tests.base import (
     BaseAuctionWebTest,
     test_auction_data,
     test_features_auction_data,
     test_financial_organization,
-    test_financial_auction_data,
     test_bids,
-    test_financial_bids,
     test_organization
 )
 
@@ -135,44 +132,6 @@ class AuctionBidderDocumentWithDSResourceTest(BaseAuctionWebTest,
         self.bid_token = response.json['access']['token']
 
 
-class FinancialAuctionBidderResourceTest(AuctionBidderResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-    def test_create_auction_bidder_invalid(self):
-        super(FinancialAuctionBidderResourceTest, self).test_create_auction_bidder_invalid()
-
-        organization = deepcopy(self.initial_organization)
-        organization['additionalIdentifiers'][0]['scheme'] = u'UA-EDR'
-        response = self.app.post_json('/auctions/{}/bids'.format(
-            self.auction_id), {'data': {'tenderers': [organization], 'qualified': True, 'eligible': True, "value": {"amount": 500}}}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertIn({u'description': [{u'additionalIdentifiers': [u'One of additional classifications should be UA-FIN.']}], u'location': u'body', u'name': u'tenderers'}, response.json['errors'])
-
-
-class FinancialAuctionBidderProcessTest(AuctionBidderProcessTest):
-    initial_data = test_financial_auction_data
-    initial_bids = test_financial_bids
-
-
-@unittest.skip("option not available")
-class FinancialAuctionBidderFeaturesResourceTest(AuctionBidderFeaturesResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionBidderDocumentWithDSResourceTest(AuctionBidderDocumentWithDSResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionDocumentBidderResourceTest(AuctionBidderDocumentResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionBidderDocumentResourceTest))
@@ -180,11 +139,6 @@ def suite():
     suite.addTest(unittest.makeSuite(AuctionBidderFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(AuctionBidderProcessTest))
     suite.addTest(unittest.makeSuite(AuctionBidderResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionDocumentBidderResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionBidderDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionBidderFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionBidderProcessTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionBidderResourceTest))
     return suite
 
 

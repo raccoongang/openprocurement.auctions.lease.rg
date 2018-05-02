@@ -12,12 +12,9 @@ from openprocurement.auctions.core.tests.blanks.document_blanks import (
     create_auction_document_json,
     put_auction_document_json,
     create_auction_offline_document,
-    # FinancialAuctionDocumentWithDSResourceTest
-    create_auction_document_vdr,
-    put_auction_document_vdr
 )
 
-from openprocurement.auctions.lease.tests.base import BaseAuctionWebTest,  test_financial_auction_data, test_bids, test_financial_bids
+from openprocurement.auctions.lease.tests.base import BaseAuctionWebTest, test_bids
 from openprocurement.auctions.lease.tests.blanks.document_blanks import (
     create_auction_document,
     put_auction_offline_document
@@ -159,26 +156,10 @@ class AuctionDocumentWithDSResourceTest(BaseAuctionWebTest, AuctionDocumentResou
         self.check_bids_are_active()
 
 
-
-class FinancialAuctionDocumentResourceTest(AuctionDocumentResourceTest):
-    initial_data = test_financial_auction_data
-    initial_bids = test_financial_bids
-
-
-class FinancialAuctionDocumentWithDSResourceTest(AuctionDocumentWithDSResourceTest):
-    initial_data = test_financial_auction_data
-    initial_bids = test_financial_bids
-
-    test_create_auction_document_vdr = snitch(create_auction_document_vdr)
-    test_put_auction_document_vdr = snitch(put_auction_document_vdr)
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionDocumentResourceTest))
     suite.addTest(unittest.makeSuite(AuctionDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionDocumentWithDSResourceTest))
     return suite
 
 

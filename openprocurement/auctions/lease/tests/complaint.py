@@ -11,8 +11,7 @@ from openprocurement.auctions.core.tests.blanks.complaint_blanks import (
 )
 from openprocurement.auctions.core.tests.base import snitch
 from openprocurement.auctions.lease.tests.base import (
-    BaseAuctionWebTest, test_auction_data, test_lots,
-    test_financial_auction_data, test_financial_organization
+    BaseAuctionWebTest, test_lots,
 )
 
 
@@ -39,21 +38,6 @@ class AuctionComplaintDocumentResourceTest(BaseAuctionWebTest, InsiderAuctionCom
         complaint = response.json['data']
         self.complaint_id = complaint['id']
         self.complaint_owner_token = response.json['access']['token']
-
-
-class FinancialAuctionComplaintResourceTest(BaseAuctionWebTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-@unittest.skip("option not available")
-class FinancialAuctionLotAwardComplaint(BaseAuctionWebTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionComplaintDocumentResourceTest(BaseAuctionWebTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
 
 
 def suite():
