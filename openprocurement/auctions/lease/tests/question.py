@@ -24,24 +24,10 @@ class AuctionLotQuestionResourceTest(BaseAuctionWebTest):
     patch_auction_question_lot = snitch(patch_auction_question_lot)
 
 
-
-class FinancialAuctionQuestionResourceTest(AuctionQuestionResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotQuestionResourceTest(AuctionLotQuestionResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionQuestionResourceTest))
     suite.addTest(unittest.makeSuite(AuctionLotQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotQuestionResourceTest))
     return suite
 
 

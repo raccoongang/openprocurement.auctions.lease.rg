@@ -190,38 +190,10 @@ class Auction2LotContractDocumentResourceTest(BaseAuctionWebTest, Auction2LotCon
         self.contract_id = contract['id']
 
 
-class FinancialAuctionContractResourceTest(AuctionContractResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuction2LotContractResourceTest(Auction2LotContractResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuction2LotContractDocumentResourceTest(Auction2LotContractDocumentResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionContractDocumentResourceTest(AuctionContractDocumentResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionContractResourceTest))
     suite.addTest(unittest.makeSuite(AuctionContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionContractResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionContractDocumentResourceTest))
     return suite
 
 

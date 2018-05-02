@@ -291,78 +291,6 @@ class Auction2LotAwardDocumentResourceTest(BaseAuctionWebTest):
         self.award_id = award['id']
 
 
-class CreateFinancialAuctionAwardTest(CreateAuctionAwardTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionAwardProcessTest(AuctionAwardProcessTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotAwardResourceTest(AuctionLotAwardResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuction2LotAwardResourceTest(Auction2LotAwardResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionAwardComplaintResourceTest(AuctionAwardComplaintResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionLotAwardComplaintResourceTest(AuctionLotAwardComplaintResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-
-
-@unittest.skip("option not available")
-class FinancialAuction2LotAwardComplaintResourceTest(Auction2LotAwardComplaintResourceTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuctionAwardComplaintDocumentResourceTest(AuctionAwardComplaintDocumentResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuction2LotAwardComplaintDocumentResourceTest(Auction2LotAwardComplaintDocumentResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionAwardDocumentResourceTest(AuctionAwardDocumentResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-@unittest.skip("option not available")
-class FinancialAuction2LotAwardDocumentResourceTest(Auction2LotAwardDocumentResourceTest):
-    initial_bids = test_financial_bids
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(Auction2LotAwardComplaintDocumentResourceTest))
@@ -373,14 +301,6 @@ def suite():
     suite.addTest(unittest.makeSuite(AuctionAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(AuctionAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(AuctionLotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuction2LotAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuction2LotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuction2LotAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuction2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionLotAwardResourceTest))
     return suite
 
 

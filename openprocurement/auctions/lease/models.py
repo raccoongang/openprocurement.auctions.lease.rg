@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, time
 
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, IntType, BooleanType
+from schematics.types import StringType, IntType, BooleanType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from pyramid.security import Allow
@@ -30,7 +30,8 @@ from openprocurement.auctions.core.models import (
     dgfOrganization as Organization,
     dgfCDB2Complaint as Complaint,
     Identifier,
-    ListType
+    ListType,
+    dgfCDB2CPVCAVClassification
 )
 from openprocurement.auctions.core.plugins.awarding.v2_1.models import Award
 from openprocurement.auctions.core.plugins.contracting.v2_1.models import Contract
@@ -43,11 +44,18 @@ from openprocurement.auctions.flash.models import (
     Auction as BaseAuction, Bid as BaseBid,
 )
 
+from openprocurement.api.models.schematics_extender import (
+    Model,
+    IsoDurationType
+)
+
 from .constants import (
     DGF_ID_REQUIRED_FROM,
     MINIMAL_EXPOSITION_PERIOD,
     MINIMAL_EXPOSITION_REQUIRED_FROM,
-    MINIMAL_PERIOD_FROM_RECTIFICATION_END
+    MINIMAL_PERIOD_FROM_RECTIFICATION_END,
+    CAVPS_PROPERTY_CODES,
+    CPVS_PROPERTY_CODES
 )
 from .utils import get_auction_creation_date, generate_rectificationPeriod
 
@@ -150,9 +158,39 @@ edit_role = (edit_role + blacklist('enquiryPeriod', 'tenderPeriod', 'auction_val
 Administrator_role = (Administrator_role + whitelist('awards'))
 
 
-
 class IRubbleAuction(IAuction):
     """Marker interface for Rubble auctions"""
+
+
+class PropertyLeaseClassification(dgfCDB2CPVCAVClassification):
+    scheme = StringType(required=True, choices=[u'CAV-PS'])
+
+    def validate_id(self, data, code):
+        if code not in CAVPS_PROPERTY_CODES:
+            raise ValidationError(BaseType.MESSAGES['choices'].format(unicode(CAVPS_PROPERTY_CODES)))
+
+
+class PropertyLeaseAdditionalClassification(dgfCDB2CPVCAVClassification):
+    scheme = StringType(required=True, choices=[u'CPVS'])
+    id = StringType(required=True, choices=[u'PA01-7'])
+
+
+class PropertyItem(Item):
+    """A property item to be leased."""
+    classification = ModelType(dgfCDB2CPVCAVClassification, required=False)
+    propertyLeaseClassification = ModelType(PropertyLeaseClassification, required=True)
+    additionalClassifications = ListType(ModelType(PropertyLeaseAdditionalClassification), required=True, min_size=1)
+
+
+class LeaseTerms(Model):
+
+    leaseDuration = IsoDurationType()
+
+
+class ContractTerms(Model):
+
+    contractType = StringType(required=True, choices=['lease'])
+    leaseTerms = ModelType(LeaseTerms, required=True)
 
 
 @implementer(IRubbleAuction)
@@ -184,8 +222,9 @@ class Auction(BaseAuction):
     questions = ListType(ModelType(Question), default=list())
     features = ListType(ModelType(Feature), validators=[validate_features_uniq, validate_not_available])
     lots = ListType(ModelType(Lot), default=list(), validators=[validate_lots_uniq, validate_not_available])
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_items_uniq])
+    items = ListType(ModelType(PropertyItem), required=True, min_size=1, validators=[validate_items_uniq])
     minNumberOfQualifiedBids = IntType(choices=[1, 2])
+    contractTerms = ModelType(ContractTerms, required=True)
 
     def __acl__(self):
         return [
@@ -217,7 +256,6 @@ class Auction(BaseAuction):
                 lot.date = now
 
     def validate_tenderPeriod(self, data, period):
-        """Auction start date must be not closer than MINIMAL_EXPOSITION_PERIOD days and not a holiday"""
         if not (period and period.startDate and period.endDate):
             return
         if get_auction_creation_date(data) < MINIMAL_EXPOSITION_REQUIRED_FROM:

@@ -41,21 +41,6 @@ class AuctionComplaintDocumentResourceTest(BaseAuctionWebTest, InsiderAuctionCom
         self.complaint_owner_token = response.json['access']['token']
 
 
-class FinancialAuctionComplaintResourceTest(BaseAuctionWebTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-@unittest.skip("option not available")
-class FinancialAuctionLotAwardComplaint(BaseAuctionWebTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
-class FinancialAuctionComplaintDocumentResourceTest(BaseAuctionWebTest):
-    initial_data = test_financial_auction_data
-    initial_organization = test_financial_organization
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionComplaintDocumentResourceTest))

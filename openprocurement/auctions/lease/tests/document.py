@@ -160,25 +160,10 @@ class AuctionDocumentWithDSResourceTest(BaseAuctionWebTest, AuctionDocumentResou
 
 
 
-class FinancialAuctionDocumentResourceTest(AuctionDocumentResourceTest):
-    initial_data = test_financial_auction_data
-    initial_bids = test_financial_bids
-
-
-class FinancialAuctionDocumentWithDSResourceTest(AuctionDocumentWithDSResourceTest):
-    initial_data = test_financial_auction_data
-    initial_bids = test_financial_bids
-
-    test_create_auction_document_vdr = snitch(create_auction_document_vdr)
-    test_put_auction_document_vdr = snitch(put_auction_document_vdr)
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuctionDocumentResourceTest))
     suite.addTest(unittest.makeSuite(AuctionDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(FinancialAuctionDocumentWithDSResourceTest))
     return suite
 
 
