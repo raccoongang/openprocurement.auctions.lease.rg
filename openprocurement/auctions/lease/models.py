@@ -133,7 +133,7 @@ class AuctionAuctionPeriod(Period):
         if self.startDate and get_now() > calc_auction_end_time(auction.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(auction.numberOfBids, self.startDate)
         elif auction.tenderPeriod and auction.tenderPeriod.endDate:
-            start_after = auction.tenderPeriod.endDate
+            start_after = auction.tenderPeriod.endDate + timedelta(days=auction.organizerDefinedPause) if auction.organizerDefinedPause else auction.tenderPeriod.endDate
         else:
             return
         return rounding_shouldStartAfter(start_after, auction).isoformat()
@@ -151,7 +151,7 @@ class RectificationPeriod(Period):
 create_role = (blacklist(
     'owner_token', 'owner', '_attachments', 'revisions', 'date', 'dateModified', 'doc_id', 'auctionID', 'bids',
     'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status',
-    'enquiryPeriod', 'tenderPeriod', 'awardPeriod', 'procurementMethod', 'eligibilityCriteria',
+    'enquiryPeriod', 'awardPeriod', 'procurementMethod', 'eligibilityCriteria',
     'eligibilityCriteria_en', 'eligibilityCriteria_ru', 'awardCriteria', 'submissionMethod', 'cancellations',
     'numberOfBidders', 'contracts') + schematics_embedded_role)
 edit_role = (edit_role + blacklist('enquiryPeriod', 'tenderPeriod', 'auction_value', 'auction_minimalStep', 'auction_guarantee', 'eligibilityCriteria', 'eligibilityCriteria_en', 'eligibilityCriteria_ru', 'awardCriteriaDetails', 'awardCriteriaDetails_en', 'awardCriteriaDetails_ru', 'procurementMethodRationale', 'procurementMethodRationale_en', 'procurementMethodRationale_ru', 'submissionMethodDetails', 'submissionMethodDetails_en', 'submissionMethodDetails_ru', 'minNumberOfQualifiedBids'))
@@ -159,7 +159,7 @@ Administrator_role = (Administrator_role + whitelist('awards'))
 
 
 class IRubbleAuction(IAuction):
-    """Marker interface for Rubble auctions"""
+    """Marker interface for Lease auctions"""
 
 
 class PropertyLeaseClassification(dgfCDB2CPVCAVClassification):
@@ -225,6 +225,7 @@ class Auction(BaseAuction):
     items = ListType(ModelType(PropertyItem), required=True, min_size=1, validators=[validate_items_uniq])
     minNumberOfQualifiedBids = IntType(choices=[1, 2])
     contractTerms = ModelType(ContractTerms, required=True)
+    organizerDefinedPause = IntType()
 
     def __acl__(self):
         return [
@@ -244,16 +245,26 @@ class Auction(BaseAuction):
         pause_between_periods = start_date - (start_date.replace(hour=20, minute=0, second=0, microsecond=0) - timedelta(days=1))
         end_date = calculate_business_date(start_date, -pause_between_periods, self)
         self.enquiryPeriod.endDate = end_date
-        self.tenderPeriod.endDate = self.enquiryPeriod.endDate
+        if not self.tenderPeriod.endDate:
+            self.tenderPeriod.endDate = self.enquiryPeriod.endDate
+        else:
+            self.tenderPeriod.endDate = self.tenderPeriod.endDate.replace(hour=20, minute=0, second=0, microsecond=0)
         if not self.rectificationPeriod:
             self.rectificationPeriod = generate_rectificationPeriod(self)
         self.rectificationPeriod.startDate = now
+        self.organizerDefinedPause = (self.auctionPeriod.startDate - self.tenderPeriod.endDate).days
         self.auctionPeriod.startDate = None
         self.auctionPeriod.endDate = None
         self.date = now
         if self.lots:
             for lot in self.lots:
                 lot.date = now
+
+    def validate_organizerDefinedPause(self, data, value):
+        if not value:
+            return
+        if value != 0 and value != 3:
+            raise ValidationError(u"Pause between tenderPeriod and auctionStartDate should be 3 days or none")
 
     def validate_tenderPeriod(self, data, period):
         if not (period and period.startDate and period.endDate):
