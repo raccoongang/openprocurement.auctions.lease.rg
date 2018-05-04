@@ -16,7 +16,7 @@ from openprocurement.auctions.core.tests.blanks.auction_blanks import (
     get_auction_features_auction
 )
 
-from openprocurement.auctions.lease.constants import DEFAULT_PROCUREMENT_METHOD_TYPE_FINANCIAL
+from openprocurement.auctions.lease.constants import DEFAULT_PROCUREMENT_METHOD_TYPE_LEASE
 from openprocurement.auctions.lease.tests.base import (
     BaseAuctionWebTest, test_bids, test_lots, test_organization, test_features_auction_data,
     test_financial_auction_data, test_financial_bids, test_financial_organization,

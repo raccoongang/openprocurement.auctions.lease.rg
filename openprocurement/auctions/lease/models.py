@@ -153,7 +153,7 @@ create_role = (blacklist(
     'documents', 'awards', 'questions', 'complaints', 'auctionUrl', 'status',
     'enquiryPeriod', 'awardPeriod', 'procurementMethod', 'eligibilityCriteria',
     'eligibilityCriteria_en', 'eligibilityCriteria_ru', 'awardCriteria', 'submissionMethod', 'cancellations',
-    'numberOfBidders', 'contracts') + schematics_embedded_role)
+    'numberOfBidders', 'contracts', 'organizerDefinedPause') + schematics_embedded_role)
 edit_role = (edit_role + blacklist('enquiryPeriod', 'tenderPeriod', 'auction_value', 'auction_minimalStep', 'auction_guarantee', 'eligibilityCriteria', 'eligibilityCriteria_en', 'eligibilityCriteria_ru', 'awardCriteriaDetails', 'awardCriteriaDetails_en', 'awardCriteriaDetails_ru', 'procurementMethodRationale', 'procurementMethodRationale_en', 'procurementMethodRationale_ru', 'submissionMethodDetails', 'submissionMethodDetails_en', 'submissionMethodDetails_ru', 'minNumberOfQualifiedBids'))
 Administrator_role = (Administrator_role + whitelist('awards'))
 
@@ -177,8 +177,8 @@ class PropertyLeaseAdditionalClassification(dgfCDB2CPVCAVClassification):
 
 class PropertyItem(Item):
     """A property item to be leased."""
-    classification = ModelType(dgfCDB2CPVCAVClassification, required=False)
-    propertyLeaseClassification = ModelType(PropertyLeaseClassification, required=True)
+    classification = ModelType(PropertyLeaseClassification, required=True)
+    # propertyLeaseClassification = ModelType(PropertyLeaseClassification, required=True)
     additionalClassifications = ListType(ModelType(PropertyLeaseAdditionalClassification), required=True, min_size=1)
 
 
@@ -199,7 +199,7 @@ class Auction(BaseAuction):
     class Options:
         roles = {
             'create': create_role,
-            'edit_active.tendering': (blacklist('enquiryPeriod', 'tenderPeriod', 'rectificationPeriod', 'auction_value', 'auction_minimalStep', 'auction_guarantee', 'eligibilityCriteria', 'eligibilityCriteria_en', 'eligibilityCriteria_ru', 'minNumberOfQualifiedBids') + edit_role),
+            'edit_active.tendering': (blacklist('enquiryPeriod', 'tenderPeriod', 'rectificationPeriod', 'auction_value', 'auction_minimalStep', 'auction_guarantee', 'eligibilityCriteria', 'eligibilityCriteria_en', 'eligibilityCriteria_ru', 'minNumberOfQualifiedBids', 'contractTerms', 'organizerDefinedPause') + edit_role),
             'Administrator': (whitelist('rectificationPeriod') + Administrator_role),
         }
 
