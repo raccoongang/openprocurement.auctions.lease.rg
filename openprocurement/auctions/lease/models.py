@@ -173,15 +173,16 @@ class PropertyLeaseClassification(dgfCDB2CPVCAVClassification):
             raise ValidationError(BaseType.MESSAGES['choices'].format(unicode(CAVPS_PROPERTY_CODES)))
 
 
-class PropertyLeaseAdditionalClassification(dgfCDB2CPVCAVClassification):
-    scheme = StringType(required=True, choices=[u'CPVS'])
-    id = StringType(required=True, choices=[u'PA01-7'])
-
-
 class PropertyItem(Item):
     """A property item to be leased."""
     classification = ModelType(PropertyLeaseClassification, required=True)
-    additionalClassifications = ListType(ModelType(dgfCDB2CPVCAVClassification), required=True, min_size=1)
+    additionalClassifications = ListType(ModelType(dgfCDB2CPVCAVClassification), default=list())
+
+    def validate_additionalClassifications(self, data, codes):
+        if [code for code in codes if (code['scheme'] == u'CPVS' and code['id'] == u'PA01-7')]:
+            return
+        else:
+            codes.append({'scheme': u'CPVS', 'id': u'PA01-7', 'description': u'description'})
 
 
 class LeaseTerms(Model):
@@ -227,7 +228,6 @@ class Auction(BaseAuction):
     items = ListType(ModelType(PropertyItem), required=True, min_size=1, validators=[validate_items_uniq])
     minNumberOfQualifiedBids = IntType(choices=[1, 2])
     contractTerms = ModelType(ContractTerms, required=True)
-    organizerDefinedPause = IntType()
 
     def __acl__(self):
         return [
