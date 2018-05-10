@@ -78,6 +78,9 @@ def bids_validation_wrapper(validation_func):
         return validation_func(klass, orig_data, value)
     return validator
 
+def set_time_to_eight_pm(value):
+    return value.replace(hour=20, minute=0, second=0, microsecond=0)
+
 
 class ProcuringEntity(flashProcuringEntity):
     identifier = ModelType(Identifier, required=True)
@@ -132,8 +135,8 @@ class AuctionAuctionPeriod(Period):
             return
         if self.startDate and get_now() > calc_auction_end_time(auction.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(auction.numberOfBids, self.startDate)
-        elif auction.tenderPeriod and auction.tenderPeriod.endDate:
-            start_after = auction.tenderPeriod.endDate + timedelta(days=auction.organizerDefinedPause) if auction.organizerDefinedPause else auction.tenderPeriod.endDate
+        elif auction.enquiryPeriod and auction.enquiryPeriod.endDate:
+            start_after = auction.enquiryPeriod.endDate
         else:
             return
         return rounding_shouldStartAfter(start_after, auction).isoformat()
@@ -178,13 +181,12 @@ class PropertyLeaseAdditionalClassification(dgfCDB2CPVCAVClassification):
 class PropertyItem(Item):
     """A property item to be leased."""
     classification = ModelType(PropertyLeaseClassification, required=True)
-    # propertyLeaseClassification = ModelType(PropertyLeaseClassification, required=True)
-    additionalClassifications = ListType(ModelType(PropertyLeaseAdditionalClassification), required=True, min_size=1)
+    additionalClassifications = ListType(ModelType(dgfCDB2CPVCAVClassification), required=True, min_size=1)
 
 
 class LeaseTerms(Model):
 
-    leaseDuration = IsoDurationType()
+    leaseDuration = IsoDurationType(required=True)
 
 
 class ContractTerms(Model):
@@ -242,29 +244,25 @@ class Auction(BaseAuction):
         now = get_now()
         start_date = TZ.localize(self.auctionPeriod.startDate.replace(tzinfo=None))
         self.tenderPeriod.startDate = self.enquiryPeriod.startDate = now
-        pause_between_periods = start_date - (start_date.replace(hour=20, minute=0, second=0, microsecond=0) - timedelta(days=1))
+        pause_between_periods = start_date - (set_time_to_eight_pm(start_date) - timedelta(days=1))
         end_date = calculate_business_date(start_date, -pause_between_periods, self)
         self.enquiryPeriod.endDate = end_date
+        workingDay_before_startDate = set_time_to_eight_pm(calculate_business_date(start_date, -timedelta(days=1), self, working_days=True))
+        tenderPeriod_endDate_rounded_to_eight_pm = set_time_to_eight_pm(self.tenderPeriod.endDate)
         if not self.tenderPeriod.endDate:
-            self.tenderPeriod.endDate = self.enquiryPeriod.endDate
+            self.tenderPeriod.endDate = workingDay_before_startDate
         else:
-            self.tenderPeriod.endDate = self.tenderPeriod.endDate.replace(hour=20, minute=0, second=0, microsecond=0)
-        if not self.rectificationPeriod:
-            self.rectificationPeriod = generate_rectificationPeriod(self)
+            if tenderPeriod_endDate_rounded_to_eight_pm == workingDay_before_startDate or tenderPeriod_endDate_rounded_to_eight_pm == set_time_to_eight_pm(calculate_business_date(workingDay_before_startDate, -timedelta(days=3), self, working_days=True)):
+                self.tenderPeriod.endDate = tenderPeriod_endDate_rounded_to_eight_pm
+            else:
+                self.tenderPeriod.endDate = workingDay_before_startDate
         self.rectificationPeriod.startDate = now
-        self.organizerDefinedPause = (self.auctionPeriod.startDate - self.tenderPeriod.endDate).days
         self.auctionPeriod.startDate = None
         self.auctionPeriod.endDate = None
         self.date = now
         if self.lots:
             for lot in self.lots:
                 lot.date = now
-
-    def validate_organizerDefinedPause(self, data, value):
-        if not value:
-            return
-        if value != 0 and value != 3:
-            raise ValidationError(u"Pause between tenderPeriod and auctionStartDate should be 3 days or none")
 
     def validate_tenderPeriod(self, data, period):
         if not (period and period.startDate and period.endDate):
