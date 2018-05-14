@@ -16,12 +16,10 @@ Contents:
    :maxdepth: 2
 
    overview
-
-.. standard/index
+   standard/index
    upload
    award_workflow
    tutorial
-   fintutorial
    2pc
    acceleration
 * :ref:`Authentication <openprocurementapi:authentication>`
@@ -31,7 +29,6 @@ Contents:
 * :ref:`Performance recommendations <openprocurementapi:performance>`
 * :ref:`API in cluster mode <openprocurementapi:cluster>`
 
-..
    auctions
    procuring
    bidding

@@ -1,4 +1,3 @@
-.. Kicking page rebuild 2014-10-30 17:00:08
 .. _standard:
 
 Data Standard
@@ -12,14 +11,14 @@ areas that were not covered by it.
    :maxdepth: 1
 
    auction
-   organization
-   item
-   document
-   bid
    award
-   question
+   bid
+   cancellation
    complaint
    contract
-   util
-   cancellation
+   document
+   property-item
+   organization
    procuringentity
+   question
+   util
