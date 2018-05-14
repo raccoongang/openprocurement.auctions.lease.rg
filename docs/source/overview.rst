@@ -3,11 +3,13 @@ Overview
 
 This `openprocurement.auctions.lease` package documentation contains information for Participants of the PROZORRO.SALE system and intended to discover all aspects of `lease procedure`.
 
-Орендодавцями (Організаторами) можуть виступати:
+*Please note that the documentation is currently somewhat out of date.*
+
+In the Organizer role can act following subjects:
 - `State Property Fund of Ukraine <http://www.spfu.gov.ua>`_;
-- органи,  уповноважені  Верховною  Радою Автономної Республіки Крим;
-- державні підприємства;
-- підприємства,  установи  та  організації.
+- state enterprises;
+- authorities, which are authorized by the Verkhovna Rada of the Autonomous Republic of Crimea;
+- enterprises, institutions and organizations.
 
 In order to perform state property lease specialized procedure is available:
  
@@ -52,21 +54,22 @@ Features
 * Procedure can be switched from *draft* status to *active.tendering*.
 * During *active.tendering* period participants can ask questions, submit proposals, and upload documents.
 
-* The items within an auction are allowed to be from different CAV groups. There is predefined list of possible items to lease (CAV-PS classification):
-    - 04000000-8 – Нерухоме майно
-    - 05000000-5 – Цілісний майновий комплекс або майновий комплекс - комплекс активів підприємства
-    - 06000000-2 – Земельні ділянки
-    - 30000000-9 – Офісна та комп’ютерна техніка, устаткування та приладдя, крім меблів та пакетів програмного забезпечення
-    - 31000000-6 – Електротехнічне устаткування, апаратура, обладнання та матеріали; освітлювальне устаткування
-    - 32000000-3 – Радіо-, телевізійна, комунікаційна, телекомунікаційна та супутня апаратура й обладнання
-    - 33000000-0 – Медичне обладнання, фармацевтична продукція та засоби особистої гігієни
-    - 34000000-7 – Транспортне обладнання та допоміжне приладдя до нього
-    - 35000000-4 – Охоронне, протипожежне, поліцейське та оборонне обладнання
-    - 37000000-8 – Музичні інструменти, спортивні товари, ігри, іграшки, ремісничі, художні матеріали та приладдя
-    - 38000000-5 – Лабораторне, оптичне та високоточне обладнання (крім лінз)
-    - 39000000-2 – Меблі (у тому числі офісні меблі), меблево-декоративні вироби, побутова техніка (крім освітлювального обладнання) та засоби для чищення
-    - 42000000-6 – Промислова техніка
-    - 43000000-3 – Гірничодобувне та будівельне обладнання
+* The items within an auction are allowed to be from different CAV groups. There is predefined list of possible items to lease (please, refer to `CAV-PS` classification schema):
+    - 04000000-8
+    - 05000000-5
+    - 06000000-2
+    - 30000000-9
+    - 31000000-6
+    - 32000000-3
+    - 33000000-0
+    - 34000000-7
+    - 35000000-4
+    - 37000000-8
+    - 38000000-5
+    - 39000000-2
+    - 42000000-6
+    - 43000000-3
+
 * Additional classification (CPVS) is constant for `propertyLease` procedure - `PA01-7`.
 * The minimum desired participants' count by default is 2, but there is option to decrease it to 1 participant;
 * Optionally an Organizer can set `tenderPeriod.endDate` - if so, auction can't start earlier 3 days after.
@@ -107,7 +110,7 @@ message.
 Project status
 --------------
 
-.. ASK: The project has pre alpha status.
+The project currently is in beta status.
 
 The source repository for this project is on GitHub: https://github.com/prozorro-sale/openprocurement.auctions.lease
 
@@ -118,16 +121,7 @@ registration necessary).
 Documentation of related packages
 ---------------------------------
 
-.. ASK: * `OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_
-
-API stability
--------------
-
-.. ASK:
-API is highly unstable, and while API endpoints are expected to remain
-relatively stable the data exchange formats are expected to be changed a
-lot.  The changes in the API are communicated via `Open Procurement API
-<https://groups.google.com/group/open-procurement-api>`_ maillist.
+* `OpenProcurement API <http://api-docs.openprocurement.org/en/latest/>`_
 
 Change log
 ----------
@@ -137,7 +131,8 @@ Change log
 
 Released: not released
 
-
 Next steps
 ----------
+
+TBD: provide an API tutorial
 .. You might find it helpful to look at the :ref:`tutorial`.
