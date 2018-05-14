@@ -1,7 +1,7 @@
 .. . Kicking page rebuild 2014-10-30 17:00:08
 .. include:: defs.hrst
 
-.. index:: Contract
+.. index:: Contract, ContractTerms
 .. _Contract:
 
 Contract
@@ -94,3 +94,38 @@ Schema
 
     |ocdsDescription|
     All documents and attachments related to the contract, including any notices.
+
+.. _ContractTerms:
+
+ContractTerms
+========
+
+Schema
+------
+
+:contractType:
+    string, required
+
+    The only choice currently is `lease`.
+
+:leaseTerms:
+    :ref:`LeaseTerms`
+
+    The options of property lease.
+
+LeaseTerms
+========
+
+Schema
+------
+
+:leaseDuration:
+    ISO8601 duration string, required
+
+    The duration of property lease in contract.
+
+:taxHolidays:
+    list of :ref:`TaxHolidays`
+
+:escalationClauses:
+    list of :ref:`Escalations`
