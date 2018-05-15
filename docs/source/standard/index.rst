@@ -3,9 +3,7 @@
 Data Standard
 =============
 
-Data standard is modelled along the `Open Contracting Standard
-<http://standard.open-contracting.org/>`_ with extensions in
-areas that were not covered by it.
+Data standard is modelled along the `Open Contracting Standard`_ with extensions in areas that were not covered by it.
 
 .. toctree::
    :maxdepth: 1
@@ -17,8 +15,17 @@ areas that were not covered by it.
    complaint
    contract
    document
+   parameter
    property-item
    organization
    procuringentity
    question
    util
+
+**********
+References
+**********
+
+.. target-notes::
+
+.. _`Open Contracting Standard`: http://standard.open-contracting.org
