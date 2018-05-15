@@ -1,16 +1,22 @@
 .. openprocurement.auctions.lease documentation master file, created by
    hands (forked from `dgf` package).
+   Please, make sure to satisfy the `Sphinx documentation style guide`
+   <http://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html>_
 
-.. title:: OpenProcurement Sale LEASE
+.. title:: OPENPROCUREMENT.SALE:LEASE
 
 
-Welcome to `openprocurement.auctions.lease's` documentation!
-============================================================
+####################################################################
+Welcome to `"openprocurement.auctions.lease"` package documentation!
+####################################################################
 
-Please report any problems or suggestions for improvement either via the :ref:`Issue tracker
-<https://github.com/prozorro-sale/openprocurement.auctions.lease/issues>`.
+Please report any problems or suggestions for improvement via the `Issue tracker`_.
 
+.. note:: Please note that the documentation currently is updating and somewhat out of date.
+
+*********
 Contents:
+*********
 
 .. toctree::
    :maxdepth: 2
@@ -22,14 +28,8 @@ Contents:
    tutorial
    2pc
    acceleration
-* :ref:`Authentication <openprocurementapi:authentication>`
-* :ref:`Responses <openprocurementapi:errors>`
-* :ref:`Options <openprocurementapi:options>`
-* :ref:`Date Format: ISO 8601 <openprocurementapi:date-format>`
-* :ref:`Performance recommendations <openprocurementapi:performance>`
-* :ref:`API in cluster mode <openprocurementapi:cluster>`
 
-   auctions
+.. auctions
    procuring
    bidding
    meat
@@ -39,10 +39,25 @@ Contents:
    complaints
    reference
 
+* :ref:`Authentication <openprocurementapi:authentication>`
+* :ref:`Responses <openprocurementapi:errors>`
+* :ref:`Options <openprocurementapi:options>`
+* :ref:`Date Format: ISO 8601 <openprocurementapi:date-format>`
+* :ref:`Performance recommendations <openprocurementapi:performance>`
+* :ref:`API in cluster mode <openprocurementapi:cluster>`
+
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`search`
 
 .. * :ref:`modindex`
+
+
+**********
+References
+**********
+
+.. target-notes::
+
+.. _`Issue tracker`: https://github.com/openprocurement/openprocurement.auctions.lease
